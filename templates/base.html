@@ -1,0 +1,131 @@
+{% load static %}<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}IT quiz{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-2f186091/css/fontello.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
+    {% if user.is_authenticated and user.is_teacher %}
+      <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
+    {% else %}
+      <link rel="stylesheet" type="text/css" href="{% static 'css/students.css' %}">
+    {% endif %}
+  </head>
+  <body>
+    <button class="btn-toggle">Ночной режим</button>
+    <div class="container my-4">
+      <div class="row justify-content-center">
+        <div class="w-100">
+          <div class="row d-flex align-items-center">
+            <div class="col">
+              <h1 class="logo">
+                <a href="{% url 'home' %}">
+                  IT quiz
+                  {% if user.is_authenticated %}
+                    {% if user.is_teacher %}
+                      <span class="icon-feather" data-toggle="tooltip" data-placement="right" title="Teacher profile"></span>
+                    {% else %}
+                      <span class="icon-graduation-cap" data-toggle="tooltip" data-placement="right" title="Student profile"></span>
+                    {% endif %}
+                  {% endif %}
+                </a>
+              </h1>
+             
+            </div>
+
+            <div class="col text-right">
+              <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target=".bd-example-modal-lg">Теория</button>
+            </div>
+
+            <!-- Modal -->
+
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Теория</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body text-center">
+                    <p>Руководства</p>
+                    <ul class="list-group mb-3">
+                      <li class="list-group-item"><a href="https://metanit.com/web/javascript/">Руководство по JavaScript</a></li>
+                      <li class="list-group-item"><a href="https://metanit.com/python/">Руководство по Python</a></li>
+                      <li class="list-group-item"><a href="https://metanit.com/sharp/">Руководство по C#</a></li>
+                      <li class="list-group-item"><a href="https://metanit.com/php/">Руководство по PHP</a></li>
+                      <li class="list-group-item"><a href="https://metanit.com/java/">Руководство по Java</a></li>
+
+                    </ul>
+                    <p>Видеоуроки</p>
+
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/CxgOKJh4zWE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/cr_3evPrzsU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/w8rRhAup4kg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/OK_JCtrrv-c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/xk4_1vDrzzo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col text-right">
+              
+              {% if user.is_authenticated %}
+                <p class="pt-3">Вы вошли как <strong>{{ user.username }}</strong>. <a href="{% url 'logout' %}">Выйти</a>.</p>
+              {% else %}
+                <a href="{% url 'login' %}" class="btn btn-light" role="button">Вход</a>
+                <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Регистрация</a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="card mb-3 wrp">
+            <div class="card-body">
+              {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+              {% block content %}
+              {% endblock %}
+            </div>
+          </div>
+          <footer>
+
+          </footer>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      })
+    </script>
+    <script>
+      const btn = document.querySelector(".btn-toggle");
+      const wrp = document.querySelector(".wrp");
+      const wrp2 = document.querySelector(".wrp-2");
+btn.addEventListener("click", function () {
+  document.body.classList.toggle("dark-theme");
+  wrp.classList.toggle("text-white");
+  wrp.classList.toggle("bg-dark");
+ 
+  wrp2.classList.toggle("bg-secondary");
+});
+    </script>
+  </body>
+</html>
