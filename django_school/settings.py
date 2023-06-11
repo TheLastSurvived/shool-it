@@ -28,7 +28,7 @@ SECRET_KEY = 'd$pxg6fisc4iwzk&vz^s_d0lkf&k63l5a8f!obktw!jg#4zvp3'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-'https://shool-it.onrender.com/'
+'subdomain.domain.com'
 ]
 
 
